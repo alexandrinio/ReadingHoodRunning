@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Base64;
+import android.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
@@ -36,7 +36,7 @@ class ServerConnection {
             System.setOut(noOutputStream); // Silence all outputs
 
             String authString = email + ":" + password;
-            String authStringEncrypted = new String(Base64.getEncoder().encode(authString.getBytes()));
+            String authStringEncrypted = new String(Base64.encodeToString(authString.getBytes(),0));
 
             // Send request
             URL obj = new URL(link);

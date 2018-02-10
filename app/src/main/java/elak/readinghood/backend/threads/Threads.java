@@ -58,6 +58,10 @@ public class Threads {
         return threads.size();
     }
 
+    public ArrayList<Thread> getList(){
+        return threads;
+    }
+
     /**
      * @return a boolean value which indicates if the threads are empty
      */
