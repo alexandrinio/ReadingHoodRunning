@@ -17,7 +17,7 @@ public class NewsFeedActivity extends AppCompatActivity {
     ListView listView;
     MyAdapter adapter;
     SearchView editsearch;
-    //alex salah
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
