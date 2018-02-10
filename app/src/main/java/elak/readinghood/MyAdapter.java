@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import elak.readinghood.backend.threads.Thread;
-import elak.readinghood.backend.threads.Threads;
+
 
 /**
  * Created by user on 26/10/2017.
@@ -18,8 +18,8 @@ import elak.readinghood.backend.threads.Threads;
 
 public class MyAdapter extends ArrayAdapter<Thread> {
 
-    public MyAdapter(Activity context, Threads threads) {
-        super(context, R.layout.list_item , threads.getList());
+    public MyAdapter(Activity context, ArrayList<Thread> threads) {
+        super(context, R.layout.list_item, threads);
 
 
     }

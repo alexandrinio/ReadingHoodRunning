@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SignUpActivity"
             android:parentActivityName=".StartActivity" />
@@ -28,6 +29,10 @@
         <activity
             android:name=".GivePassword"
             android:parentActivityName=".ComeFromActivity" />
+
+        <activity
+            android:name=".NewThreadActivity"
+            android:parentActivityName=".NewsFeedActivity" />
     </application>
 
 </manifest>
