@@ -61,4 +61,11 @@ public class HashTags {
         }
         return string;
     }
+
+    /**
+     * @return this function returns an ArrayList that contains the tags
+     */
+    public ArrayList<HashTag> getListOfHashTags() {
+        return new ArrayList<>(hashTags);
+    }
 }
