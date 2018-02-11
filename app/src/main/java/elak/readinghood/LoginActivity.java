@@ -36,14 +36,13 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast toast = Toast.makeText(this, e.toString(), Toast.LENGTH_LONG);
             toast.show();
+            e.printStackTrace();
             return;
         }
 
         try {
             AppManager.setUserProfile();
-            Toast toast = Toast.makeText(this,"Mono apoel", Toast.LENGTH_LONG);
-            toast.show();
-            //startActivity(new Intent(this, NewsFeedActivity.class));
+            startActivity(new Intent(this, NewsFeedActivity.class));
         } catch (IOException e) {
             e.printStackTrace();
         }

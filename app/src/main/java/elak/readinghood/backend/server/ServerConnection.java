@@ -36,8 +36,7 @@ class ServerConnection {
     protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws IOException {
         int responseCode = -1;
         try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+
             System.setOut(noOutputStream); // Silence all outputs
 
             String authString = email + ":" + password;
@@ -82,8 +81,7 @@ class ServerConnection {
      */
     protected static String sendSimpleRequest(String link, String requestMethod) throws IOException {
         try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+
             System.setOut(noOutputStream); // Silence all outputs
 
             // Send request
@@ -105,7 +103,7 @@ class ServerConnection {
             return response.toString();
         } catch (IOException e) {
             System.setOut(originalStream);
-            throw new IOException();
+            throw e;
         }
     }
 }

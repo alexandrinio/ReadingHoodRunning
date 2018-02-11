@@ -39,7 +39,7 @@ public class ThreadsAdapter extends ArrayAdapter<Thread> {
 
 
         TextView t1 = (TextView) listItemView.findViewById(R.id.votes);
-        t1.setText(thread.getQuestionPost().getNumberOfVotes());
+        t1.setText(String.valueOf(thread.getQuestionPost().getNumberOfVotes()));
 
         TextView t2 = (TextView) listItemView.findViewById(R.id.query);
         t2.setText(thread.getQuestionPost().getText());

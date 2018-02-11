@@ -60,7 +60,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         t3.setText(post.getText());
 
         final TextView t5 = (TextView) listItemView.findViewById(R.id.votes1);
-        t5.setText(post.getNumberOfVotes());
+        t5.setText(String.valueOf(post.getNumberOfVotes()));
 
 
         ImageView upvoteView = (ImageView) listItemView.findViewById(R.id.upvote);

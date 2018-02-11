@@ -12,6 +12,7 @@ import elak.readinghood.backend.profiles.Activity;
 import elak.readinghood.backend.profiles.UserProfile;
 import elak.readinghood.backend.threads.Thread;
 import elak.readinghood.backend.threads.Threads;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,19 +35,17 @@ public class ServerRequest {
      * @throws IOException Can not Connect to server
      */
     public static boolean existenceOfEmail(String email) throws IOException {
+
+        String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
+        String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
         try {
-            String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
-            String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
-            try {
-                JSONObject jsonObject = new JSONObject(jsonResult);
-                String jsonEmail = jsonObject.getString("email");
-                return jsonEmail.equals(email);
-            } catch (JSONException J) {
-                return false;
-            }
-        } catch (IOException e) {
-            throw new IOException();
+            JSONObject jsonObject = new JSONObject(jsonResult);
+            String jsonEmail = jsonObject.getString("email");
+            return jsonEmail.equals(email);
+        } catch (JSONException J) {
+            return false;
         }
+
     }
 
     /**
@@ -68,7 +67,7 @@ public class ServerRequest {
                 return false;
             } else {
                 e.printStackTrace();
-                throw new IOException();
+                throw e;
             }
         }
     }
@@ -83,29 +82,25 @@ public class ServerRequest {
      */
     public static ArrayList<Profile> getProfiles(String name, String surname) throws IOException {
         ArrayList<Profile> profiles = new ArrayList<>();
+        String url = "https://readinghood.tk:8443/accounts/search?";
+        if (!name.isEmpty()) {
+            url = url + "name=" + URLEncoder.encode(name, "UTF-8");
+        }
+        if (!surname.isEmpty()) {
+            url = url + "&surname=" + URLEncoder.encode(surname, "UTF-8");
+        }
+        if (name.isEmpty() && surname.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
         try {
-            String url = "https://readinghood.tk:8443/accounts/search?";
-            if (!name.isEmpty()) {
-                url = url + "name=" + URLEncoder.encode(name, "UTF-8");
+            JSONArray jsonProfiles = new JSONArray(jsonResult);
+            for (int i = 0; i < jsonProfiles.length(); i++) {
+                profiles.add(getProfile(jsonProfiles.getJSONObject(i).toString()));
             }
-            if (!surname.isEmpty()) {
-                url = url + "&surname=" + URLEncoder.encode(surname, "UTF-8");
-            }
-            if (name.isEmpty() && surname.isEmpty()) {
-                return new ArrayList<>();
-            }
-            String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
-            try {
-                JSONArray jsonProfiles = new JSONArray(jsonResult);
-                for (int i = 0; i < jsonProfiles.length(); i++) {
-                    profiles.add(getProfile(jsonProfiles.getJSONObject(i).toString()));
-                }
-                return profiles;
-            } catch (JSONException J) {
-                return profiles;
-            }
-        } catch (IOException e) {
-            throw new IOException();
+            return profiles;
+        } catch (JSONException J) {
+            return profiles;
         }
     }
 
@@ -119,17 +114,13 @@ public class ServerRequest {
      * @throws IOException Can not Connect to server
      */
     public static UserProfile getUserProfile(String email, String password) throws IOException {
+        String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
+        String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
         try {
-            String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
-            String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
-            try {
-                Profile profile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
-                return new UserProfile(profile, email, password);
-            } catch (JSONException J) {
-                return new UserProfile();
-            }
-        } catch (IOException e) {
-            throw new IOException();
+            Profile profile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
+            return new UserProfile(profile, email, password);
+        } catch (JSONException J) {
+            return new UserProfile();
         }
     }
 
@@ -141,37 +132,33 @@ public class ServerRequest {
      * @throws IOException Can not Connect to server
      */
     public static Thread getThreadById(int threadId) throws IOException {
+        String url = "https://readinghood.tk:8443/threads/searchById?id=" + Integer.toString(threadId);
+        String jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
         try {
-            String url = "https://readinghood.tk:8443/threads/searchById?id=" + Integer.toString(threadId);
-            String jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            try {
-                JSONObject thread = new JSONObject(jsonResult);
-                //getting id
-                int id = thread.getInt("id");
+            JSONObject thread = new JSONObject(jsonResult);
+            //getting id
+            int id = thread.getInt("id");
 
-                //getting title
+            //getting title
 
-                String title = thread.getString("title");
-                //getting views
-                int views = thread.getInt("views");
+            String title = thread.getString("title");
+            //getting views
+            int views = thread.getInt("views");
 
-                //getting hashTags
-                HashTags tags = getHashTags(2, thread.getJSONArray("tags").toString());
+            //getting hashTags
+            HashTags tags = getHashTags(2, thread.getJSONArray("tags").toString());
 
-                //getting posts
-                Posts testPosts = getPosts(2, thread.getJSONArray("posts").toString());
+            //getting posts
+            Posts testPosts = getPosts(2, thread.getJSONArray("posts").toString());
 
-                Post questionPost = testPosts.getPost(0);
-                Posts answerPosts = new Posts();
-                for (int j = 1; j < testPosts.size(); j++) {
-                    answerPosts.addPost(testPosts.getPost(j));
-                }
-                return new Thread(id, title, views, tags, questionPost, answerPosts);
-            } catch (JSONException J) {
-                return null;
+            Post questionPost = testPosts.getPost(0);
+            Posts answerPosts = new Posts();
+            for (int j = 1; j < testPosts.size(); j++) {
+                answerPosts.addPost(testPosts.getPost(j));
             }
-        } catch (IOException e) {
-            throw new IOException();
+            return new Thread(id, title, views, tags, questionPost, answerPosts);
+        } catch (JSONException J) {
+            return null;
         }
     }
 
@@ -183,12 +170,8 @@ public class ServerRequest {
      * @throws IOException Can not Connect to server
      */
     public static int getRespect(int id) throws IOException {
-        try {
-            String url = "https://readinghood.tk:8443/profiles/votes?profile_id=" + Integer.toString(id);
-            return Integer.parseInt(ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET"));
-        } catch (IOException e) {
-            throw new IOException();
-        }
+        String url = "https://readinghood.tk:8443/profiles/votes?profile_id=" + Integer.toString(id);
+        return Integer.parseInt(ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET"));
     }
 
     /**
@@ -252,45 +235,41 @@ public class ServerRequest {
      */
     public static Threads getThreads(String option) throws IOException {
         ArrayList<Thread> threads = new ArrayList<>();
+        String url = "https://readinghood.tk:8443/" + option;
+        String jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
         try {
-            String url = "https://readinghood.tk:8443/" + option;
-            String jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            try {
-                JSONArray jsonThreads = new JSONArray(jsonResult);
-                for (int i = 0; i < jsonThreads.length(); i++) {
-                    try {
-                        JSONObject thread = jsonThreads.getJSONObject(i);
+            JSONArray jsonThreads = new JSONArray(jsonResult);
+            for (int i = 0; i < jsonThreads.length(); i++) {
+                try {
+                    JSONObject thread = jsonThreads.getJSONObject(i);
 
-                        //getting id
-                        int id = thread.getInt("id");
+                    //getting id
+                    int id = thread.getInt("id");
 
-                        //getting title
+                    //getting title
 
-                        String title = thread.getString("title");
-                        //getting views
-                        int views = thread.getInt("views");
+                    String title = thread.getString("title");
+                    //getting views
+                    int views = thread.getInt("views");
 
-                        //getting hashTags
-                        HashTags hashTags = getHashTags(2, thread.getJSONArray("tags").toString());
+                    //getting hashTags
+                    HashTags hashTags = getHashTags(2, thread.getJSONArray("tags").toString());
 
-                        //getting posts
-                        Posts testPosts = getPosts(2, thread.getJSONArray("posts").toString());
+                    //getting posts
+                    Posts testPosts = getPosts(2, thread.getJSONArray("posts").toString());
 
-                        Post questionPost = testPosts.getPost(0);
-                        Posts answerPosts = new Posts();
-                        for (int j = 1; j < testPosts.size(); j++) {
-                            answerPosts.addPost(testPosts.getPost(j));
-                        }
-                        threads.add(new Thread(id, title, views, hashTags, questionPost, answerPosts));
-                    } catch (JSONException J) {
+                    Post questionPost = testPosts.getPost(0);
+                    Posts answerPosts = new Posts();
+                    for (int j = 1; j < testPosts.size(); j++) {
+                        answerPosts.addPost(testPosts.getPost(j));
                     }
+                    threads.add(new Thread(id, title, views, hashTags, questionPost, answerPosts));
+                } catch (JSONException J) {
                 }
-                return new Threads(threads);
-            } catch (JSONException J) {
-                return new Threads(threads);
             }
-        } catch (IOException e) {
-            throw new IOException();
+            return new Threads(threads);
+        } catch (JSONException J) {
+            return new Threads(threads);
         }
     }
 
@@ -308,16 +287,13 @@ public class ServerRequest {
         HashSet<HashTag> hashTags = new HashSet<>();
         String jsonResult;
         if (way == 1) {
-            try {
-                boolean tagFullOfSpaces = option.replaceAll("\\s+", "").isEmpty();
-                if (tagFullOfSpaces || option.isEmpty()) {
-                    return new HashTags(new HashSet<HashTag>());
-                }
-                String url = "https://readinghood.tk:8443/tags/" + option;
-                jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            } catch (IOException e) {
-                throw new IOException();
+            boolean tagFullOfSpaces = option.replaceAll("\\s+", "").isEmpty();
+            if (tagFullOfSpaces || option.isEmpty()) {
+                return new HashTags(new HashSet<HashTag>());
             }
+            String url = "https://readinghood.tk:8443/tags/" + option;
+            jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+
         } else {
             jsonResult = option;
         }
@@ -360,12 +336,9 @@ public class ServerRequest {
         String jsonResult;
         ArrayList<Post> posts = new ArrayList<>();
         if (way == 1) {
-            try {
-                String url = "https://readinghood.tk:8443/" + option;
-                jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            } catch (IOException e) {
-                throw new IOException();
-            }
+            String url = "https://readinghood.tk:8443/" + option;
+            jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+
         } else {
             jsonResult = option;
         }
