@@ -47,4 +47,11 @@ public class Posts {
     public int size() {
         return posts.size();
     }
+
+    /**
+     * @return the the list of posts as an ArrayList
+     */
+    public ArrayList<Post> getListOfPosts() {
+        return posts;
+    }
 }

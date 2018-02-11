@@ -1,13 +1,14 @@
 package elak.readinghood.backend;
 
 import elak.readinghood.backend.api.AppManager;
+import elak.readinghood.backend.hashTags.HashTags;
 import elak.readinghood.backend.posts.Post;
 import elak.readinghood.backend.profiles.Profile;
-import elak.readinghood.backend.tags.Tags;
 import elak.readinghood.backend.threads.Thread;
 import elak.readinghood.backend.threads.Threads;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Main {
@@ -17,14 +18,14 @@ public class Main {
         try {
             // Start Panel
             // registration example
-            // System.out.println(AppManager.getStartUpManager().registrationSetEMailAndUsername("spyridon97@hotmail.com", "spyridon97"));
-            // System.out.println(AppManager.getStartUpManager().registrationSetDepartment("Informatics"));
-            // System.out.println(AppManager.getStartUpManager().registrationSetPasswordAndRePassword("a1234567", "a1234567"));
-            // System.out.println(AppManager.getStartUpManager().createUserProfile());
-
+            /*
+            System.out.println(AppManager.getStartUpManager().registrationSetEMailAndUsername("spyridon97@hotmail.com", "spyridon97"));
+            AppManager.getStartUpManager().registrationSetDepartment("Informatics");
+            System.out.println(AppManager.getStartUpManager().registrationSetPasswordAndRePassword("a1234567", "a1234567"));
+            AppManager.getStartUpManager().createUserProfile();
+            //*/
 
             // example of login
-            // !!! log in is not working if you give wrong password for the time being, but is gonna be fixed soon |||
             System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
             // System.out.println(AppManager.getStartUpManager().login("melissourgos@hotmail.com", "a1234567"));
 
@@ -39,11 +40,10 @@ public class Main {
             System.out.println(AppManager.getUserProfile().getName());
             System.out.println(AppManager.getUserProfile().getSurname());
             System.out.println(AppManager.getUserProfile().getDepartment());
-            System.out.println(AppManager.getUserProfile().getReputation());
+            System.out.println(AppManager.getUserProfile().getRespect());
             AppManager.getUserProfile().setActivity();
             System.out.println(AppManager.getUserProfile().getActivity().getLatestUpVotedPostText());
             System.out.println(AppManager.getUserProfile().getActivity().getLatestDownVotedPostText());
-            System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedPostText());
             System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedThreadTitle());
             //*/
 
@@ -54,11 +54,10 @@ public class Main {
             System.out.println(profile.getName());
             System.out.println(profile.getSurname());
             System.out.println(profile.getDepartment());
-            System.out.println(profile.getReputation());
+            System.out.println(profile.getRespect());
             profile.setActivity();
             System.out.println(profile.getActivity().getLatestUpVotedPostText());
             System.out.println(profile.getActivity().getLatestDownVotedPostText());
-            System.out.println(profile.getActivity().getLatestCreatedPostText());
             System.out.println(profile.getActivity().getLatestCreatedThreadTitle());
             //*/
 
@@ -67,34 +66,40 @@ public class Main {
             HashSet<String> tagsStrings = new HashSet<>();
             tagsStrings.add("Json");
             System.out.println(AppManager.createThread("Json Basics", "Can somebody help me json basics for java?", tagsStrings));
+            // then you can see the created post as shown in mock-ups with this function belows with this exact index
+            Thread thread = AppManager.getUserProfile().getThreadsCreatedByThisProfile().seeThread(0);
             //*/
 
             // These are for the newsFeed
-            //*
+            /*
             threads = AppManager.getThreadsAccordingToTheDepartmentOfTheUser();
             threads = AppManager.getPopularThreadsOfNewsFeed();
             threads = AppManager.getRecentThreadsOfNewsFeed();
             //*/
 
             // Search bar
-            // threads = AppManager.getThreadsAccordingToText("java);
-
-            Tags tags;
-
-            // Tag search
             /*
-            tags = AppManager.getMostUsedTags();
-            tags = AppManager.getTagsAccordingToName("C++");
-            tags = AppManager.getThreadsAccordingToATag("C++");
+            threads = AppManager.getThreadsAccordingToText("java");
+            ArrayList<Profile> profilesAsked = AppManager.getProfilesAccordingToText("Spyridon Tsalikis");
+            //*/
+
+
+            HashTags hashTags;
+
+            // HashTag search
+            /*
+            hashTags = AppManager.getMostUsedHashTags();
+            hashTags = AppManager.getHashTagsAccordingToName("C++");
+            threads = AppManager.getThreadsAccordingToAHashTag("C++");
             //*/
 
             /*
-            // View Tags example
-            System.out.println("\nAsked Tags");
-            for (int i = 0; i < tags.size(); i++) {
-                System.out.println("Name = " + tags.getTag(i).getName() + ", Usages = " + tags.getTag(i).getUsages() + " , id = " + tags.getTag(i).getId());
+            // View HashTags example
+            System.out.println("\nAsked HashTags");
+            for (int i = 0; i < hashTags.size(); i++) {
+                System.out.println("Name = " + hashTags.getHashTag(i).getName() + ", Usages = " + hashTags.getHashTag(i).getUsages() + " , id = " + hashTags.getHashTag(i).getId());
             }
-            */
+            //*/
 
             /*
             // View of threads example.
@@ -155,8 +160,12 @@ public class Main {
 
             // Answer a Thread
             /*
-            System.out.println("chosenThread.answerThreadWithAPost("I can help you out. Send me and email"));
-            System.out.println(chosenThread.getTheLatestAddedPost());
+            // if a thread is not blocked you can answer it
+            if (chosenThread.canYouAnswerThisThread()) {
+                System.out.println(chosenThread.answerThreadWithAPost("I can help you out. Send me and email"));
+                chosenThread.getTheLatestAddedPost();
+
+            }
             //*/
 
             // Settings panel
@@ -167,7 +176,7 @@ public class Main {
             //*/
         } catch (IOException e) {
             // you will put an error dialog here
-            System.out.println("ERROR CONNECTING WITH SERVER");
+            System.out.println("Can't Connect Right Now");
         }
     }
 }

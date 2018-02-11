@@ -16,9 +16,9 @@ import elak.readinghood.backend.threads.Thread;
  * Created by user on 26/10/2017.
  */
 
-public class MyAdapter extends ArrayAdapter<Thread> {
+public class ThreadsAdapter extends ArrayAdapter<Thread> {
 
-    public MyAdapter(Activity context, ArrayList<Thread> threads) {
+    public ThreadsAdapter(Activity context, ArrayList<Thread> threads) {
         super(context, R.layout.list_item, threads);
 
 
@@ -48,7 +48,7 @@ public class MyAdapter extends ArrayAdapter<Thread> {
         t3.setText(thread.getQuestionPost().getAuthor().getUsername());
 
         TextView t4 = (TextView) listItemView.findViewById(R.id.tags);
-        t4.setText(thread.getTags().toString());
+        t4.setText(thread.getHashTags().toString());
 
         return listItemView;
 

@@ -56,7 +56,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <EditText
-            android:id="@+id/userNameEditText"
+            android:id="@+id/usernameSignUpEditText"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+            app:layout_constraintBottom_toTopOf="@+id/emailSignUpEditText"
             app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -83,7 +83,7 @@
 
 
         <EditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/emailSignUpEditText"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="300dp"
             android:layout_height="wrap_content"

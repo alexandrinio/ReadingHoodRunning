@@ -51,7 +51,7 @@
         android:layout_marginBottom="-8dp">
 
         <EditText
-            android:id="@+id/userNameEditText"
+            android:id="@+id/emailEditText"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -62,14 +62,14 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/myedittextbutton"
             android:ems="10"
-            android:hint="username"
+            android:hint="email"
             android:inputType="textPersonName"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+            app:layout_constraintBottom_toTopOf="@+id/passwordEditText"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -78,7 +78,7 @@
 
 
         <EditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/passwordEditText"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -115,6 +115,7 @@
             android:elevation="0dp"
             android:text="Log In"
             android:visibility="visible"
+            android:onClick="login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintLeft_toLeftOf="parent"

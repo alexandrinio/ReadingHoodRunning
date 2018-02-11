@@ -10,9 +10,6 @@ public class Activity {
     // you need a thumbs down icon here and this string next to it
     private String latestDownVotedPostText;
 
-    // you need a post icon here and this string next to it
-    private String latestCreatedPostText;
-
     // you need a thread icon here and this string next to it
     private String latestCreatedThreadTitle;
 
@@ -23,7 +20,6 @@ public class Activity {
     public Activity() {
         latestUpVotedPostText = "";
         latestDownVotedPostText = "";
-        latestCreatedPostText = "";
         latestCreatedThreadTitle = "";
     }
 
@@ -32,13 +28,11 @@ public class Activity {
      *
      * @param latestUpVotedPostText    is the Text from the latest upVoted Post
      * @param latestDownVotedPostText  is the Text from the latest downVoted Post
-     * @param latestCreatedPostText    is the Text from the latest created Post
-     * @param latestCreatedThreadTitle is the Title of the lastest created Thread
+     * @param latestCreatedThreadTitle is the Title of the latest created Thread
      */
-    public Activity(String latestUpVotedPostText, String latestDownVotedPostText, String latestCreatedPostText, String latestCreatedThreadTitle) {
+    public Activity(String latestUpVotedPostText, String latestDownVotedPostText, String latestCreatedThreadTitle) {
         this.latestUpVotedPostText = latestUpVotedPostText;
         this.latestDownVotedPostText = latestDownVotedPostText;
-        this.latestCreatedPostText = latestCreatedPostText;
         this.latestCreatedThreadTitle = latestCreatedThreadTitle;
     }
 
@@ -58,15 +52,6 @@ public class Activity {
      */
     public String getLatestDownVotedPostText() {
         return latestDownVotedPostText;
-    }
-
-    /**
-     * Preview the data of this function only if the string is not empty.
-     *
-     * @return the Text from the latest created Post
-     */
-    public String getLatestCreatedPostText() {
-        return latestCreatedPostText;
     }
 
     /**

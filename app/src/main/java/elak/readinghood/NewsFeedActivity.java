@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -19,7 +18,7 @@ import elak.readinghood.backend.threads.Threads;
 public class NewsFeedActivity extends AppCompatActivity {
     Threads threads;
     ListView listView;
-    MyAdapter adapter;
+    ThreadsAdapter adapter;
     SearchView editsearch;
 
 
@@ -40,12 +39,23 @@ public class NewsFeedActivity extends AppCompatActivity {
 
 
         listView = (ListView) findViewById(R.id.MyListView);
-        adapter = new MyAdapter(this, threads.getList());
+        adapter = new ThreadsAdapter(this, threads.getListOfThreads());
         listView.setAdapter(adapter);
+        final NewsFeedActivity a = this;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
                 try {
                     Thread chosenThread = threads.seeThread(position);
+
+
+                    Intent intent = new Intent(a, ShowThreadActivity.class);
+                    Bundle b = new Bundle();
+                    b.putInt("id", chosenThread.getId()); //Your id
+                    intent.putExtras(b);
+                    startActivity(intent);
+
+
+
                 } catch (IOException e) {
                     // toast
                 }
