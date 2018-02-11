@@ -23,7 +23,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        /*username=((EditText)findViewById(R.id.usernameSignUpEditText)).getText().toString();
+        username=((EditText)findViewById(R.id.usernameSignUpEditText)).getText().toString();
         email=((EditText)findViewById(R.id.emailSignUpEditText)).getText().toString();
 
 
@@ -40,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
             toast = Toast.makeText(this,"Problem with server",Toast.LENGTH_LONG);
             toast.show();
             return;
-        }*/
+        }
 
         startActivity(new Intent(this, ComeFromActivity.class));
 

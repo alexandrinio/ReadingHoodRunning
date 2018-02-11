@@ -1,7 +1,8 @@
 package elak.readinghood;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,23 +23,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        /*email=((EditText)findViewById(R.id.emailEditText)).getText().toString();
-        password=((EditText)findViewById(R.id.passwordEditText)).getText().toString();
+        email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();
+        password = ((EditText) findViewById(R.id.passwordEditText)).getText().toString();
 
-        try{
-            AppManager.getStartUpManager().login(email,password);
-            } catch (IOException e){
-            Toast toast = Toast.makeText(this,e.toString(),Toast.LENGTH_LONG);
+        try {
+            String message=AppManager.getStartUpManager().login(email, password);
+            if (!message.equals("Success")) {
+                Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+        } catch (IOException e) {
+            Toast toast = Toast.makeText(this, e.toString(), Toast.LENGTH_LONG);
             toast.show();
             return;
         }
 
         try {
             AppManager.setUserProfile();
+            Toast toast = Toast.makeText(this,"Mono apoel", Toast.LENGTH_LONG);
+            toast.show();
+            //startActivity(new Intent(this, NewsFeedActivity.class));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-    */
     }
 }
