@@ -5,12 +5,13 @@ import elak.readinghood.backend.profiles.Profile;
 import elak.readinghood.backend.server.ServerUpdate;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Spiros
  */
-public class Post {
+public class Post implements Serializable{
     private int id, numberOfVotes;
     private String text;
     private Profile author;

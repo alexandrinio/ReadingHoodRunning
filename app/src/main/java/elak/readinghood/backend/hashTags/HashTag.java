@@ -1,9 +1,11 @@
 package elak.readinghood.backend.hashTags;
 
+import java.io.Serializable;
+
 /**
  * @author Spiros
  */
-public class HashTag {
+public class HashTag implements Serializable {
     private int id, usages;
     private String name;
 

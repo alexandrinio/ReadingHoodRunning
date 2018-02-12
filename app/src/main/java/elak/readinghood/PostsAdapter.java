@@ -51,7 +51,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
             TextView t4 = (TextView) listItemView.findViewById(R.id.tags1);
             t4.setText(currentThread.getHashTags().toString());
-            t1.setVisibility(View.VISIBLE);
+            t4.setVisibility(View.VISIBLE);
 
         }
 

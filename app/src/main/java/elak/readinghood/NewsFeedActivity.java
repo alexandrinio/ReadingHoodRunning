@@ -84,7 +84,7 @@ public class NewsFeedActivity extends AppCompatActivity {
 
     }
 
-    public void fabListenner() {
+    public void fabListenner(View view) {
         Intent intent = new Intent(this, NewThreadActivity.class);
         startActivity(intent);
     }

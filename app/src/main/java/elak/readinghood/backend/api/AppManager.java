@@ -296,21 +296,26 @@ public class AppManager {
      */
     private static boolean correctHashTagFormat(String hashTag) {
         for (int i = 0; i < hashTag.length(); i++) {
-            if (!Character.isLetter(hashTag.charAt(i)) || !Character.isDigit(hashTag.charAt(i)) || !(hashTag.charAt(i) == '_')) {
+            if (!Character.isLetter(hashTag.charAt(i)) && !Character.isDigit(hashTag.charAt(i)) && !(hashTag.charAt(i) == '_')) {
+                System.err.println("A "+hashTag.charAt(i));
                 return false;
             }
 
             if (i == 0) {
                 if (hashTag.charAt(i) == '_') {
+                    System.err.println("B");
                     return false;
                 }
             } else if (i == hashTag.length() - 1) {
                 if (hashTag.charAt(i) == '_') {
+                    System.err.println("C");
                     return false;
                 }
             } else {
                 if (hashTag.charAt(i) == '_') {
                     if (hashTag.charAt(i - 1) == '_' || hashTag.charAt(i + 1) == '_') {
+                        System.err.println("D");
+
                         return false;
                     }
                 }

@@ -4,11 +4,12 @@ import elak.readinghood.backend.server.ServerRequest;
 import elak.readinghood.backend.threads.Threads;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @author Spiros
  */
-public class Profile {
+public class Profile implements Serializable {
     protected int id, reputation;
     protected String username, name, surname, department;
     protected Activity activity;

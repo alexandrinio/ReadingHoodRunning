@@ -2,6 +2,7 @@ package elak.readinghood;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,10 +55,15 @@ public class ShowThreadActivity extends AppCompatActivity {
 
     }
 
-    public void addAnswer() {
-        Intent intent = new Intent(this, NewThreadActivity.class);
-        intent.putExtra("thread", currentThread);
-        startActivity(intent);
+    public void addAnswer(View view) {
+        if (currentThread.canYouAnswerThisThread()){
+            Intent intent = new Intent(this, NewAnswerActivity.class);
+            intent.putExtra("thread", currentThread);
+            startActivity(intent);
+        } else {
+            Toast toast = Toast.makeText(this, "This thread has many downvotes, so you can't answer it", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class NewThreadActivity extends AppCompatActivity {
         return true;
     }
 
-    public void postAction() {
+    public void postAction(View view) {
 
         EditText title = (EditText) findViewById(R.id.title_input);
         TextInputEditText description = (TextInputEditText) findViewById(R.id.desc_input);

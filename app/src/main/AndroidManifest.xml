@@ -42,14 +42,14 @@
         <activity
             android:name=".NewAnswerActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".ShowThreadActivity" />
+            android:parentActivityName=".ShowThreadActivity" android:noHistory="true" />
         <activity
             android:screenOrientation="portrait"
             android:name=".NewsFeedActivity" />
         <activity
             android:screenOrientation="portrait"
             android:name=".NewThreadActivity"
-            android:parentActivityName=".NewsFeedActivity" />
+            android:parentActivityName=".NewsFeedActivity" android:noHistory="true" />
         <activity
             android:screenOrientation="portrait"
             android:name=".ProfileActivity" />

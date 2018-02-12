@@ -1,11 +1,12 @@
 package elak.readinghood.backend.posts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Spiros
  */
-public class Posts {
+public class Posts implements Serializable {
     private ArrayList<Post> posts;
 
     /**
