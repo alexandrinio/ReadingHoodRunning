@@ -125,6 +125,6 @@ public class Profile {
         }
 
         final Profile other = (Profile) profile;
-        return this.id != other.id;
+        return this.id == other.id;
     }
 }

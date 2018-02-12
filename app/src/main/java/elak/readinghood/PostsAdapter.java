@@ -1,12 +1,14 @@
 package elak.readinghood;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,26 +65,44 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         t5.setText(String.valueOf(post.getNumberOfVotes()));
 
 
-        ImageView upvoteView = (ImageView) listItemView.findViewById(R.id.upvote);
+        final Context context = listItemView.getContext();
+
+        final ImageView upvoteView = (ImageView) listItemView.findViewById(R.id.upvote);
+
         upvoteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    post.upVoteThisPost();
-                    t5.setText(Integer.parseInt(t5.getText().toString()) + 1);
+                    if (post.canYouUpVote()){
+                        post.upVoteThisPost();
+                        t5.setText(String.valueOf(Integer.parseInt(t5.getText().toString()) + 1));
+                    } else {
+                        Toast toast = Toast.makeText(context, "You can't vote for this post", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                    //upvoteView.setEnabled(false);
                 } catch (IOException e) {
                     //TOST
                 }
             }
         });
 
-        ImageView downvoteView = (ImageView) listItemView.findViewById(R.id.downvote);
+        final ImageView downvoteView = (ImageView) listItemView.findViewById(R.id.downvote);
+        if (!post.canYouDownVote()){
+            //downvoteView.setEnabled(false);
+        }
         downvoteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    post.downVoteThisPost();
-                    t5.setText(Integer.parseInt(t5.getText().toString()) - 1);
+                    if (post.canYouDownVote()) {
+                        post.downVoteThisPost();
+                        t5.setText(String.valueOf(Integer.parseInt(t5.getText().toString()) - 1));
+                    } else {
+                        Toast toast = Toast.makeText(context, "You can't vote for this post", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                    //downvoteView.setEnabled(false);
                 } catch (IOException e) {
                     //TOST
                 }

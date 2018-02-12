@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import elak.readinghood.backend.api.AppManager;
 
 public class GivePassword extends AppCompatActivity {
@@ -32,7 +34,16 @@ public class GivePassword extends AppCompatActivity {
             return;
         }
 
-        startActivity(new Intent(this, LoginActivity.class));
+        try {
+            AppManager.getStartUpManager().createUserProfile();
+            AppManager.setUserProfile();
+            startActivity(new Intent(this, NewsFeedActivity.class));
+        } catch (IOException e) {
+            toast = Toast.makeText(this, "Problem with server", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+
 
     }
 }

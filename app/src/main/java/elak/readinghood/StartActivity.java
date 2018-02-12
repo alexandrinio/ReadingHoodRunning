@@ -6,6 +6,8 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import elak.readinghood.backend.api.AppManager;
+
 public class StartActivity extends AppCompatActivity {
 
     @Override
@@ -24,5 +26,12 @@ public class StartActivity extends AppCompatActivity {
 
     public void startSignup(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus) {
+            AppManager.logOut(); // when back is pressed from the newsfeed activity
+        }
     }
 }

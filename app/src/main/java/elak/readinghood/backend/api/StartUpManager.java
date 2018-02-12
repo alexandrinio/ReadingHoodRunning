@@ -126,7 +126,7 @@ public class StartUpManager {
                 return "This email already exists";
             }
         } else {
-            return "This isn't and email";
+            return "This isn't an email";
         }
     }
 
