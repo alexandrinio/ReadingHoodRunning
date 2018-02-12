@@ -172,7 +172,7 @@ public class StartUpManager {
                 this.password = password;
                 return "Success";
             } else {
-                return "The rePassword doesn't not match";
+                return "The rePassword doesn't match";
             }
         } else {
             return "The password's requirements aren't met";
